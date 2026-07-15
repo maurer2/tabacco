@@ -43,14 +43,18 @@ export class AccordionTabs {
       };
     });
 
-    const markupTabs = `
-      <div role="tablist">
-        ${tabsAndPanels.map(({ tab }) => tab).join('')}
+    const markup = `
+      <div class="tabs">
+        <div class="tablist" role="tablist" >
+          ${tabsAndPanels.map(({ tab }) => tab).join('')}
+        </div>
+        <div class="tabpanels">
+          ${tabsAndPanels.map(({ panel }) => panel).join('')}
+        </div>
       </div>
     `;
-    const markupPanels = tabsAndPanels.map(({ panel }) => panel).join('');
 
-    return [markupTabs, markupPanels].join('');
+    return markup;
   }
 
   render(): void {
