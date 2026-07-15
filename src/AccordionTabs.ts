@@ -10,18 +10,22 @@ export class AccordionTabs {
   }
 
   #getAccordionMarkup() {
-    const markup = [...this.#data]
-      .map(([key, data]) => {
-        const isActive = key === this.#activeKey;
+    const detailsSummaryTags = [...this.#data].map(([key, data]) => {
+      const isActive = key === this.#activeKey;
 
-        return `
-          <details name="accordion" ${isActive ? 'open' : ''}>
-            <summary>${key}</summary>
-            <div>${data}</div>
-          </details>
-        `;
-      })
-      .join('');
+      return `
+        <details name="accordion" ${isActive ? 'open' : ''}>
+          <summary class="trigger">${key}</summary>
+          <div class="content">${data}</div>
+        </details>
+      `;
+    });
+
+    const markup = `
+      <div class="accordion">
+        ${detailsSummaryTags.join('')}
+      </div>
+    `;
 
     return markup;
   }
@@ -45,7 +49,7 @@ export class AccordionTabs {
 
     const markup = `
       <div class="tabs">
-        <div class="tablist" role="tablist" >
+        <div class="tablist" role="tablist">
           ${tabsAndPanels.map(({ tab }) => tab).join('')}
         </div>
         <div class="tabpanels">

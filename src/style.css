@@ -25,6 +25,10 @@
     margin-inline: auto;
     text-align: center;
   }
+
+  hr {
+    margin-block: 2rem;
+  }
 }
 
 @layer components {
@@ -32,19 +36,19 @@
     padding-block: 0.6rem;
     padding-inline: 1.2rem;
     font-size: 1rem;
-    background-color: var(--color-surface);
+    background: var(--color-surface);
     color: contrast-color(var(--color-surface));
     border: 1px solid transparent;
     cursor: pointer;
 
     &[aria-selected='true'] {
-      background-color: var(--color-text);
+      background: var(--color-text);
       color: contrast-color(var(--color-text));
       text-decoration: underline;
     }
 
     &:is(:hover, :focus-visible) {
-      background-color: var(--color-accent);
+      background: var(--color-accent);
       color: contrast-color(var(--color-accent));
     }
 
@@ -54,10 +58,32 @@
     }
   }
 
+  .accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    & .trigger {
+      padding-block: 0.6rem;
+      padding-inline: 1.2rem;
+      font-size: 1rem;
+      background: var(--color-surface);
+      color: contrast-color(var(--color-surface));
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+
+    & .content {
+      margin-block-start: 1rem;
+      padding: 1rem;
+      border: 1px solid var(--color-text);
+    }
+  }
+
   .tabs {
     & > .tablist {
       display: grid;
-      margin-block: 1rem;
+      margin-block-end: 1rem;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 1rem;
     }
