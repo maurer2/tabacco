@@ -1,0 +1,65 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "ignorePatterns": [
+    "dist"
+  ],
+  "categories": {
+    "correctness": "error",
+    "perf": "error",
+    "pedantic": "warn",
+    "suspicious": "warn",
+    "nursery": "off",
+    "style": "off"
+  },
+  "plugins": [
+    "eslint",
+    "typescript",
+    "unicorn",
+    "oxc",
+    "jsx-a11y",
+    "import",
+    "promise",
+  ],
+  "options": {
+    "typeAware": true,
+    "denyWarnings": true,
+    "reportUnusedDisableDirectives": "warn",
+  },
+  "rules": {
+    // eslint
+    "eslint/no-console": "off",
+    "eslint/no-plusplus": "off",
+    "eslint/no-new": "off",
+    "eslint/no-inline-comments": "off",
+    "eslint/no-undefined": "off",
+    "eslint/no-warning-comments": "off",
+    "eslint/max-lines-per-function": [
+      "warn",
+      {
+        "skipComments": true,
+        "skipBlankLines": true,
+        "max": 50,
+      },
+    ],
+    "eslint/sort-imports": "off",
+    // ts
+    "typescript/consistent-type-imports": "error",
+    "typescript/prefer-readonly-parameter-types": "off",
+    "typescript/promise-function-async": "off",
+    "typescript/strict-boolean-expressions": "off",
+    // unicorn
+    "unicorn/no-array-reduce": "warn",
+    "unicorn/no-array-for-each": "warn",
+    "unicorn/no-useless-switch-case": "off", // conflicts with exhaustive union type in switch cases
+    "unicorn/prefer-query-selector": "off",
+    // import
+    "import/no-unassigned-import": [
+      "error",
+      {
+        "allow": [
+          "**/*.css"
+        ]
+      }
+    ]
+  }
+}

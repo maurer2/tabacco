@@ -1,0 +1,34 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "ignorePatterns": [
+    "**/*.jsonc",
+    ".vscode/**",
+    "tsconfig*.json"
+  ],
+  "singleAttributePerLine": true,
+  "singleQuote": true,
+  "sortImports": {
+    "groups": [
+      [
+        "builtin",
+        "external"
+      ],
+      [
+        "subpath",
+        "internal",
+        "parent"
+      ],
+      [
+        "sibling"
+      ],
+      [
+        "index"
+      ],
+      "unknown",
+    ],
+    "newlinesBetween": true,
+  },
+  "sortPackageJson": {
+    "sortScripts": true,
+  },
+}

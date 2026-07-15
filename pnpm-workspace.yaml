@@ -1,0 +1,15 @@
+minimumReleaseAge: 10080 # 7 days
+minimumReleaseAgeExclude:
+  - typescript
+  - '@typescript/typescript-*'
+blockExoticSubdeps: true # no git branch as package url
+resolutionMode: highest
+
+supportedArchitectures:
+  cpu:
+    - arm64
+    - x64
+  os:
+    - darwin
+    - linux
+    - win32
