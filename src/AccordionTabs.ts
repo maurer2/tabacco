@@ -7,7 +7,29 @@ export class AccordionTabs {
     this.#domElement = domElement;
     this.#data = data;
     this.#activeKey = startKey;
+
+    // ignores click events from tab panels or accordion
+    this.#domElement.addEventListener('click', this.#handleTabClick);
   }
+
+  #handleTabClick = (event: MouseEvent): void => {
+    const targetElement = event.target;
+    if (!targetElement || !(targetElement instanceof HTMLElement)) {
+      return;
+    }
+
+    // ignore clicks outside the tab list (e.g. the accordion)
+    const closestTab: HTMLButtonElement | null = targetElement.closest('[role="tab"]');
+    if (!closestTab) {
+      return;
+    }
+
+    const newActiveKey = closestTab.dataset.key;
+    if (newActiveKey !== undefined && newActiveKey !== this.#activeKey) {
+      this.#activeKey = newActiveKey;
+      this.render();
+    }
+  };
 
   #getAccordionMarkup() {
     const detailsSummaryTags = [...this.#data].map(([key, data]) => {
@@ -39,7 +61,7 @@ export class AccordionTabs {
 
       return {
         tab: `
-          <button role="tab" id="${tabId}" aria-selected="${isActive ? 'true' : 'false'}" aria-controls="${panelId}">${key}</button>
+          <button role="tab" id="${tabId}" data-key="${key}" aria-selected="${isActive ? 'true' : 'false'}" aria-controls="${panelId}">${key}</button>
         `,
         panel: `
           <article role="tabpanel" id="${panelId}" aria-labelledby="${tabId}" ${isActive ? '' : 'hidden'}>${data}</article>
