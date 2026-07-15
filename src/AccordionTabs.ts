@@ -28,31 +28,29 @@ export class AccordionTabs {
 
   // https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
   #getTabListMarkup() {
+    const tabsAndPanels = [...this.#data].map(([key, data]) => {
+      const isActive = key === this.#activeKey;
+      const tabId = `tab-${key}`;
+      const panelId = `panel-${key}`;
+
+      return {
+        tab: `
+          <button role="tab" id="${tabId}" aria-selected="${isActive ? 'true' : 'false'}" aria-controls="${panelId}">${key}</button>
+        `,
+        panel: `
+          <article role="tabpanel" id="${panelId}" aria-labelledby="${tabId}" ${isActive ? '' : 'hidden'}>${data}</article>
+        `,
+      };
+    });
+
     const markupTabs = `
       <div role="tablist">
-        ${[...this.#data]
-          .map(([key]) => {
-            const isActive = key === this.#activeKey;
-
-            return `
-              <button role="tab" id="tab-${key}" aria-selected="${isActive ? 'true' : 'false'}" aria-controls="panel-${key}">${key}</button>
-            `;
-          })
-          .join('')}
+        ${tabsAndPanels.map(({ tab }) => tab).join('')}
       </div>
     `;
+    const markupPanels = tabsAndPanels.map(({ panel }) => panel).join('');
 
-    const markupPanel = [...this.#data]
-      .map(([key, data]) => {
-        const isActive = key === this.#activeKey;
-
-        return `
-          <article role="tabpanel" id="panel-${key}" aria-labelledby="tab-${key}" ${isActive ? '' : 'hidden'}>${data}</article>
-        `;
-      })
-      .join('');
-
-    return [markupTabs, markupPanel].join('');
+    return [markupTabs, markupPanels].join('');
   }
 
   render(): void {
