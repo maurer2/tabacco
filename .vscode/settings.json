@@ -29,5 +29,6 @@
   },
   "[yaml]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
-  }
+  },
+  "js/ts.experimental.useTsgo": false
 }

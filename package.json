@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "pnpm run typecheck && vite build",
+    "deploy-test": "act -W .github/workflows/gh-pages.yml --container-architecture linux/amd64",
     "dev": "vite",
     "format": "oxfmt .",
     "lint": "oxlint .",
@@ -25,5 +26,6 @@
     "oxlint-tsgolint": "^0.24.0",
     "typescript": "^7.0.2",
     "vite": "^8.1.4"
-  }
+  },
+  "packageManager": "pnpm@11.13.1"
 }
