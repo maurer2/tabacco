@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    color-scheme: light dark;
+    color-scheme: dark;
     font-family: system-ui, sans-serif;
     line-height: 1.5;
 
@@ -12,6 +12,7 @@
     --spacing-small: calc(var(--spacing-normal) * 0.75);
     --spacing-large: calc(var(--spacing-normal) * 1.25);
 
+    --color-background: oklch(0.18 0 0);
     --color-text: oklch(95% 0 0);
     --color-surface: oklch(30% 0.02 260);
     --color-accent: oklch(65% 0.2 260);
@@ -20,6 +21,11 @@
     @media (prefers-reduced-motion: reduce) {
       --transition-duration: 0s;
     }
+  }
+
+  html {
+    background: var(--color-background);
+    color: var(--color-text);
   }
 
   body {

@@ -109,7 +109,7 @@ export class AccordionTabs {
           </button>
         `,
         panel: `
-          <article class="content" role="tabpanel" id="${panelId}" aria-labelledby="${tabId}" ${isActive ? '' : 'hidden'}>
+          <article class="content" role="tabpanel" tabindex="0" id="${panelId}" aria-labelledby="${tabId}" ${isActive ? '' : 'hidden'}>
             ${data}
           </article>
         `,
@@ -117,8 +117,8 @@ export class AccordionTabs {
     });
 
     const markup = `
-      <div class="tabs" focusgroup="tablist">
-        <div class="tablist" role="tablist">
+      <div class="tabs">
+        <div class="tablist" role="tablist" focusgroup="tablist nomemory" aria-label="Categories">
           ${tabsAndPanels.map(({ tab }) => tab).join('')}
         </div>
         <div class="tabpanels">
