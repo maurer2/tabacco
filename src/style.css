@@ -1,4 +1,4 @@
-@layer reset, base, components, utilities;
+@layer reset, base, components;
 
 @import 'modern-normalize' layer(reset);
 
@@ -20,6 +20,12 @@
   body {
     display: grid;
     min-block-size: 100dvb;
+  }
+
+  button {
+    /* reset modern-normalize line-height */
+    font: inherit;
+    cursor: pointer;
   }
 
   main {
@@ -65,32 +71,48 @@
       text-align: center;
     }
   }
+
+  details {
+    /* hide marker */
+    & > summary {
+      cursor: pointer;
+      list-style: none;
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+    }
+  }
 }
 
 @layer components {
-  button {
+  /* tab buttons and accordion summaries */
+  .trigger {
     padding-block: var(--spacing-small);
     padding-inline: var(--spacing-large);
-    font-size: 1rem;
+    font-weight: 500;
+    text-box-trim: trim-both;
     background: var(--color-surface);
     color: contrast-color(var(--color-surface));
     border: 1px solid transparent;
-    cursor: pointer;
 
-    &[aria-selected='true'] {
-      background: var(--color-text);
-      color: contrast-color(var(--color-text));
-      text-decoration: underline;
-    }
-
-    &:is(:hover, :focus-visible) {
+    &:where(:hover, :focus-visible) {
       background: var(--color-accent);
       color: contrast-color(var(--color-accent));
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    /* active tab/details */
+    &:where([aria-selected='true']),
+    :where(details[open]) > & {
+      background: var(--color-text);
+      color: contrast-color(var(--color-text));
     }
 
     &:focus-visible {
-      outline: 2px solid var(--color-accent);
-      outline-offset: 2px;
+      outline: 2px solid contrast-color(var(--color-surface));
+      outline-offset: 4px;
     }
   }
 
@@ -99,34 +121,25 @@
     flex-direction: column;
     gap: var(--spacing-normal);
 
-    & .trigger {
-      padding-block: var(--spacing-small);
-      padding-inline: var(--spacing-large);
-      font-size: 1rem;
-      background: var(--color-surface);
-      color: contrast-color(var(--color-surface));
-      border: 1px solid transparent;
-      cursor: pointer;
-    }
-
     & .content {
-      margin-block-start: var(--spacing-normal);
-      padding: var(--spacing-normal);
-      border: 1px solid var(--color-text);
+      padding-block: var(--spacing-normal);
+      padding-inline: var(--spacing-large);
+      border: 1px solid currentColor;
+      border-block-start: none;
     }
   }
 
   .tabs {
     & > .tablist {
       display: grid;
-      margin-block-end: var(--spacing-normal);
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: var(--spacing-normal);
     }
 
     & > .tabpanels {
-      padding: var(--spacing-normal);
-      border: 1px solid var(--color-text);
+      padding-block: var(--spacing-normal);
+      padding-inline: var(--spacing-large);
+      border: 1px solid currentColor;
     }
   }
 }
