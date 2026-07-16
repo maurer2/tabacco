@@ -95,18 +95,18 @@
     color: contrast-color(var(--color-surface));
     border: 1px solid transparent;
 
-    &:where(:hover, :focus-visible) {
-      background: var(--color-accent);
-      color: contrast-color(var(--color-accent));
-      text-decoration: underline;
-      text-underline-offset: 4px;
-    }
-
     /* active tab/details */
     &:where([aria-selected='true']),
     :where(details[open]) > & {
       background: var(--color-text);
       color: contrast-color(var(--color-text));
+    }
+
+    &:where(:hover, :focus-visible) {
+      background: var(--color-accent);
+      color: contrast-color(var(--color-accent));
+      text-decoration: underline;
+      text-underline-offset: 4px;
     }
 
     &:focus-visible {
