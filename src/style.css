@@ -15,6 +15,11 @@
     --color-text: oklch(95% 0 0);
     --color-surface: oklch(30% 0.02 260);
     --color-accent: oklch(65% 0.2 260);
+
+    --transition-duration: 0.5s;
+    @media (prefers-reduced-motion: reduce) {
+      --transition-duration: 0s;
+    }
   }
 
   body {
@@ -72,10 +77,25 @@
   }
 
   details {
-    /* hide marker */
+    &::details-content {
+      block-size: 0;
+      overflow-y: clip;
+      transition-duration: var(--transition-duration);
+      transition-property: block-size, content-visibility;
+      transition-behavior: allow-discrete;
+    }
+
+    &[open]::details-content {
+      height: calc-size(auto, size);
+    }
+
     & > summary {
       cursor: pointer;
       list-style: none;
+
+      &::marker {
+        content: '';
+      }
 
       &::-webkit-details-marker {
         display: none;
