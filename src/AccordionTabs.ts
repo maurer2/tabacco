@@ -1,4 +1,5 @@
 type Appearance = 'Accordion' | 'Tabs';
+export type Data = Map<string, string>;
 
 export class AccordionTabs {
   #domElement;
@@ -6,7 +7,7 @@ export class AccordionTabs {
   #activeKey;
   #mediaQueryLargeScreen = window.matchMedia('(width >= 800px)');
 
-  constructor(domElement: HTMLElement, data: Map<string, string>, startKey: string) {
+  constructor(domElement: HTMLElement, data: Data, startKey: string) {
     this.#domElement = domElement;
     this.#data = data;
     this.#activeKey = startKey;
@@ -90,10 +91,10 @@ export class AccordionTabs {
 
       return {
         tab: `
-          <button role="tab" id="${tabId}" data-key="${key}" aria-selected="${isActive ? 'true' : 'false'}" aria-controls="${panelId}">${key}</button>
+          <button class="tabbutton" role="tab" id="${tabId}" data-key="${key}" aria-selected="${isActive ? 'true' : 'false'}" aria-controls="${panelId}">${key}</button>
         `,
         panel: `
-          <article role="tabpanel" id="${panelId}" aria-labelledby="${tabId}" ${isActive ? '' : 'hidden'}>${data}</article>
+          <article class="tabpanel" role="tabpanel" id="${panelId}" aria-labelledby="${tabId}" ${isActive ? '' : 'hidden'}>${data}</article>
         `,
       };
     });
