@@ -64,10 +64,9 @@
     margin: 0;
 
     & > figcaption {
-      margin-block-start: var(--spacing-normal);
-      padding: var(--spacing-normal);
-      background: var(--color-surface);
-      color: contrast-color(var(--color-surface));
+      margin-block-start: var(--spacing-small);
+      font-style: italic;
+      color: var(--color-text);
       text-align: center;
     }
   }
