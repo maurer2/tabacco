@@ -104,16 +104,20 @@ export class AccordionTabs {
 
       return {
         tab: `
-          <button class="trigger" role="tab" id="${tabId}" data-key="${key}" aria-selected="${isActive ? 'true' : 'false'}" aria-controls="${panelId}">${key}</button>
+          <button class="trigger" role="tab" id="${tabId}" data-key="${key}" aria-selected="${isActive ? 'true' : 'false'}" aria-controls="${panelId}" ${isActive ? 'focusgroupstart' : ''}>
+            ${key}
+          </button>
         `,
         panel: `
-          <article class="content" role="tabpanel" id="${panelId}" aria-labelledby="${tabId}" ${isActive ? '' : 'hidden'}>${data}</article>
+          <article class="content" role="tabpanel" id="${panelId}" aria-labelledby="${tabId}" ${isActive ? '' : 'hidden'}>
+            ${data}
+          </article>
         `,
       };
     });
 
     const markup = `
-      <div class="tabs">
+      <div class="tabs" focusgroup="tablist">
         <div class="tablist" role="tablist">
           ${tabsAndPanels.map(({ tab }) => tab).join('')}
         </div>
