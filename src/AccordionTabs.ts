@@ -94,7 +94,7 @@ export class AccordionTabs {
           <button class="trigger" role="tab" id="${tabId}" data-key="${key}" aria-selected="${isActive ? 'true' : 'false'}" aria-controls="${panelId}">${key}</button>
         `,
         panel: `
-          <article class="tabpanel" role="tabpanel" id="${panelId}" aria-labelledby="${tabId}" ${isActive ? '' : 'hidden'}>${data}</article>
+          <article class="content" role="tabpanel" id="${panelId}" aria-labelledby="${tabId}" ${isActive ? '' : 'hidden'}>${data}</article>
         `,
       };
     });

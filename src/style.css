@@ -121,9 +121,6 @@
     gap: var(--spacing-normal);
 
     & .content {
-      padding-block: var(--spacing-normal);
-      padding-inline: var(--spacing-large);
-      border: 1px solid currentColor;
       border-block-start: none;
     }
   }
@@ -134,11 +131,11 @@
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: var(--spacing-normal);
     }
+  }
 
-    & > .tabpanels {
-      padding-block: var(--spacing-normal);
-      padding-inline: var(--spacing-large);
-      border: 1px solid currentColor;
-    }
+  .content {
+    padding-block: var(--spacing-normal);
+    padding-inline: var(--spacing-large);
+    border: 1px solid currentColor;
   }
 }
