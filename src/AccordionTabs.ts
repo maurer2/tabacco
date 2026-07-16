@@ -4,10 +4,10 @@ export type Data = Map<string, string>;
 export class AccordionTabs {
   #domElement;
   #data;
-  #activeKey;
+  #activeKey: string | undefined;
   #mediaQueryLargeScreen = window.matchMedia('(width >= 800px)');
 
-  constructor(domElement: HTMLElement, data: Data, startKey: string) {
+  constructor(domElement: HTMLElement, data: Data, startKey?: string) {
     this.#domElement = domElement;
     this.#data = data;
     this.#activeKey = startKey;
@@ -27,14 +27,24 @@ export class AccordionTabs {
   #handleToggle = (event: ToggleEvent): void => {
     const targetElement = event.target;
 
-    if (event.newState !== 'open' || !(targetElement instanceof HTMLDetailsElement)) {
+    if (!(targetElement instanceof HTMLDetailsElement)) {
       return;
     }
 
-    const newActiveKey = targetElement.dataset.key;
-    if (newActiveKey !== undefined && newActiveKey !== this.#activeKey) {
-      this.#activeKey = newActiveKey;
-      this.render();
+    const key = targetElement.dataset.key;
+    if (key === undefined) {
+      return;
+    }
+
+    if (event.newState === 'open') {
+      this.#activeKey = key;
+
+      return;
+    }
+
+    // details tag was closed but no new details tag was opened
+    if (key === this.#activeKey) {
+      this.#activeKey = undefined;
     }
   };
 
@@ -51,10 +61,13 @@ export class AccordionTabs {
     }
 
     const newActiveKey = closestTab.dataset.key;
-    if (newActiveKey !== undefined && newActiveKey !== this.#activeKey) {
-      this.#activeKey = newActiveKey;
-      this.render();
+    if (newActiveKey === undefined) {
+      return;
     }
+
+    // either close all tabs, or expand new tab
+    this.#activeKey = newActiveKey === this.#activeKey ? undefined : newActiveKey;
+    this.render();
   };
 
   #handleMediaQueryChange = (): void => {
@@ -112,14 +125,6 @@ export class AccordionTabs {
 
     return markup;
   }
-
-  // render(): void {
-  //   this.#domElement.innerHTML = [
-  //     this.#getAccordionMarkup(),
-  //     '<hr/>',
-  //     this.#getTabListMarkup(),
-  //   ].join('');
-  // }
 
   render(): void {
     this.#domElement.innerHTML =
