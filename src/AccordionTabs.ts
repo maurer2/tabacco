@@ -1,7 +1,10 @@
+type Appearance = 'Accordion' | 'Tabs';
+
 export class AccordionTabs {
   #domElement;
   #data;
   #activeKey;
+  #mediaQueryLargeScreen = window.matchMedia('(width >= 800px)');
 
   constructor(domElement: HTMLElement, data: Map<string, string>, startKey: string) {
     this.#domElement = domElement;
@@ -12,6 +15,11 @@ export class AccordionTabs {
     this.#domElement.addEventListener('toggle', this.#handleToggle, { capture: true });
     // ignores click events from tab panels or accordion
     this.#domElement.addEventListener('click', this.#handleTabClick);
+    this.#mediaQueryLargeScreen.addEventListener('change', this.#handleMediaQueryChange);
+  }
+
+  get #appearance(): Appearance {
+    return this.#mediaQueryLargeScreen.matches ? 'Tabs' : 'Accordion';
   }
 
   // also called when a tab is expanded via ctrl+f search
@@ -46,6 +54,10 @@ export class AccordionTabs {
       this.#activeKey = newActiveKey;
       this.render();
     }
+  };
+
+  #handleMediaQueryChange = (): void => {
+    this.render();
   };
 
   #getAccordionMarkup() {
@@ -100,11 +112,16 @@ export class AccordionTabs {
     return markup;
   }
 
+  // render(): void {
+  //   this.#domElement.innerHTML = [
+  //     this.#getAccordionMarkup(),
+  //     '<hr/>',
+  //     this.#getTabListMarkup(),
+  //   ].join('');
+  // }
+
   render(): void {
-    this.#domElement.innerHTML = [
-      this.#getAccordionMarkup(),
-      '<hr/>',
-      this.#getTabListMarkup(),
-    ].join('');
+    this.#domElement.innerHTML =
+      this.#appearance === 'Accordion' ? this.#getAccordionMarkup() : this.#getTabListMarkup();
   }
 }
