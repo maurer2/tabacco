@@ -8,6 +8,10 @@
     font-family: system-ui, sans-serif;
     line-height: 1.5;
 
+    --spacing-normal: 1rem;
+    --spacing-small: calc(var(--spacing-normal) * 0.75);
+    --spacing-large: calc(var(--spacing-normal) * 1.25);
+
     --color-text: oklch(95% 0 0);
     --color-surface: oklch(30% 0.02 260);
     --color-accent: oklch(65% 0.2 260);
@@ -21,13 +25,12 @@
   main {
     inline-size: min(100%, 120ch);
     margin-inline: auto;
-    padding-block: 2rem;
-    padding-inline: 2rem;
+    padding: var(--spacing-normal);
     text-align: justify;
   }
 
   hr {
-    margin-block: 2rem;
+    margin-block: var(--spacing-normal);
   }
 
   img {
@@ -55,8 +58,8 @@
     margin: 0;
 
     & > figcaption {
-      margin-block-start: 1rem;
-      padding: 1rem;
+      margin-block-start: var(--spacing-normal);
+      padding: var(--spacing-normal);
       background: var(--color-surface);
       color: contrast-color(var(--color-surface));
       text-align: center;
@@ -66,8 +69,8 @@
 
 @layer components {
   button {
-    padding-block: 0.6rem;
-    padding-inline: 1.2rem;
+    padding-block: var(--spacing-small);
+    padding-inline: var(--spacing-large);
     font-size: 1rem;
     background: var(--color-surface);
     color: contrast-color(var(--color-surface));
@@ -94,11 +97,11 @@
   .accordion {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--spacing-normal);
 
     & .trigger {
-      padding-block: 0.6rem;
-      padding-inline: 1.2rem;
+      padding-block: var(--spacing-small);
+      padding-inline: var(--spacing-large);
       font-size: 1rem;
       background: var(--color-surface);
       color: contrast-color(var(--color-surface));
@@ -107,8 +110,8 @@
     }
 
     & .content {
-      margin-block-start: 1rem;
-      padding: 1rem;
+      margin-block-start: var(--spacing-normal);
+      padding: var(--spacing-normal);
       border: 1px solid var(--color-text);
     }
   }
@@ -116,13 +119,13 @@
   .tabs {
     & > .tablist {
       display: grid;
-      margin-block-end: 1rem;
+      margin-block-end: var(--spacing-normal);
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 1rem;
+      gap: var(--spacing-normal);
     }
 
     & > .tabpanels {
-      padding: 1rem;
+      padding: var(--spacing-normal);
       border: 1px solid var(--color-text);
     }
   }
