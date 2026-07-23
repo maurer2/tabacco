@@ -157,6 +157,14 @@
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: var(--spacing-normal);
     }
+
+    /* hidden tabs with hidden="until-found" don't use display: none */
+    /* [hidden] is used as fallback for Safari */
+    /* https://webkit.org/blog/17640/webkit-features-for-safari-26-2/ vs https://caniuse.com/?search=hidden%3Duntil-found */
+    & .tabpanels > :where([hidden="until-found"], [hidden]) {
+      border: none;
+      padding: 0;
+    }
   }
 
   .content {
