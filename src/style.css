@@ -157,6 +157,13 @@
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: var(--spacing-normal);
     }
+
+    /* hidden also targets tabs with hidden="until-found", that don't use display: none */
+    /* supported in Safari even though canIuse lists it as unsupported in Safai https://webkit.org/blog/17640/webkit-features-for-safari-26-2/ */
+    & .tabpanels > :where([hidden]) {
+      border: none;
+      padding: 0;
+    }
   }
 
   .content {

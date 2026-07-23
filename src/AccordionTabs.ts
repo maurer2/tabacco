@@ -17,6 +17,8 @@ export class AccordionTabs {
     // ignores click events from tab panels or accordion
     this.#domElement.addEventListener('click', this.#handleTabClick);
     this.#mediaQueryLargeScreen.addEventListener('change', this.#handleMediaQueryChange);
+    // called when element is ctrl+f-ed when used with hidden="until-found", does not bubble
+    this.#domElement.addEventListener('beforematch', this.#handleBeforeMatch, { capture: true });
   }
 
   get #appearance(): Appearance {
@@ -70,6 +72,27 @@ export class AccordionTabs {
     this.render();
   };
 
+  // beforematch fires on the hidden panels, not the tab
+  #handleBeforeMatch = (event: Event): void => {
+    const targetElement = event.target;
+    if (!targetElement || !(targetElement instanceof HTMLElement)) {
+      return;
+    }
+
+    const foundPanel: HTMLElement | null = targetElement.closest('[role="tabpanel"]');
+    if (!foundPanel) {
+      return;
+    }
+
+    const newActiveKey = foundPanel.dataset.key;
+    if (newActiveKey === undefined || newActiveKey === this.#activeKey) {
+      return;
+    }
+
+    this.#activeKey = newActiveKey;
+    this.render();
+  };
+
   #handleMediaQueryChange = (): void => {
     this.render();
   };
@@ -109,7 +132,7 @@ export class AccordionTabs {
           </button>
         `,
         panel: `
-          <article class="content" role="tabpanel" tabindex="0" id="${panelId}" aria-labelledby="${tabId}" ${isActive ? '' : 'hidden'}>
+          <article class="content" role="tabpanel" tabindex="0" id="${panelId}" data-key="${key}" aria-labelledby="${tabId}" ${isActive ? '' : 'hidden="until-found"'}>
             ${data}
           </article>
         `,
