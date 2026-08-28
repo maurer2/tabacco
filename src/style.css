@@ -2,6 +2,18 @@
 
 @import 'modern-normalize' layer(reset);
 
+@property --background-color-with-alpha {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --background-color-without-alpha {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+
 @layer base {
   :root {
     color-scheme: dark;
@@ -129,8 +141,20 @@
     }
 
     &:where(:hover, :focus-visible) {
-      background: var(--color-accent);
-      color: contrast-color(var(--color-accent));
+      --background-color-with-alpha: alpha(from var(--color-text) / 15%);
+      --background-color-without-alpha: color-mix(
+        in oklab,
+        var(--color-text) 15%,
+        var(--color-background)
+      );
+
+      background: var(--background-color-with-alpha);
+
+      color: contrast-color(
+        var(--background-color-with-alpha)
+      ); /* doesn't work as the alpha value is removed and the remaining color is white so the text becomes black */
+      color: contrast-color(var(--background-color-without-alpha)); /* text becomes black */
+
       text-decoration: underline;
       text-underline-offset: 4px;
     }
