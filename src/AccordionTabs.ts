@@ -1,6 +1,8 @@
 type Appearance = 'Accordion' | 'Tabs';
 export type Data = Map<string, string>;
 
+const html = String.raw;
+
 export class AccordionTabs {
   #domElement;
   #data;
@@ -101,8 +103,12 @@ export class AccordionTabs {
     const detailsSummaryTags = [...this.#data].map(([key, data]) => {
       const isActive = key === this.#activeKey;
 
-      return `
-        <details name="accordion" data-key="${key}" ${isActive ? 'open' : ''}>
+      return html`
+        <details
+          name="accordion"
+          data-key="${key}"
+          ${isActive ? 'open' : ''}
+        >
           <summary class="trigger">${key}</summary>
           <div class="content">${data}</div>
         </details>
@@ -126,27 +132,46 @@ export class AccordionTabs {
       const panelId = `panel-${key}`;
 
       return {
-        tab: `
-          <button class="trigger" role="tab" id="${tabId}" data-key="${key}" aria-selected="${isActive ? 'true' : 'false'}" aria-controls="${panelId}" ${isActive ? 'focusgroupstart' : ''}>
+        tab: html`
+          <button
+            class="trigger"
+            role="tab"
+            id="${tabId}"
+            data-key="${key}"
+            aria-selected="${isActive ? 'true' : 'false'}"
+            aria-controls="${panelId}"
+            ${isActive ? 'focusgroupstart' : ''}
+          >
             ${key}
           </button>
         `,
-        panel: `
-          <article class="content" role="tabpanel" tabindex="0" id="${panelId}" data-key="${key}" aria-labelledby="${tabId}" ${isActive ? '' : 'hidden="until-found"'}>
+        panel: html`
+          <article
+            class="content"
+            role="tabpanel"
+            tabindex="0"
+            id="${panelId}"
+            data-key="${key}"
+            aria-labelledby="${tabId}"
+            ${isActive ? '' : 'hidden="until-found"'}
+          >
             ${data}
           </article>
         `,
       };
     });
 
-    const markup = `
+    const markup = html`
       <div class="tabs">
-        <div class="tablist" role="tablist" focusgroup="tablist nomemory" aria-label="Categories">
+        <div
+          class="tablist"
+          role="tablist"
+          focusgroup="tablist nomemory"
+          aria-label="Categories"
+        >
           ${tabsAndPanels.map(({ tab }) => tab).join('')}
         </div>
-        <div class="tabpanels">
-          ${tabsAndPanels.map(({ panel }) => panel).join('')}
-        </div>
+        <div class="tabpanels">${tabsAndPanels.map(({ panel }) => panel).join('')}</div>
       </div>
     `;
 

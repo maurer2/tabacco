@@ -8,3 +8,6 @@ logs
 # Editor
 .idea
 .DS_Store
+
+# TypeScript build mode
+*.tsbuildinfo

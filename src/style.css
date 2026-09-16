@@ -153,7 +153,7 @@
       color: contrast-color(
         var(--background-color-with-alpha)
       ); /* doesn't work as the alpha value is removed and the remaining color is white so the text becomes black */
-      color: contrast-color(var(--background-color-without-alpha)); /* text becomes black */
+      color: contrast-color(var(--background-color-without-alpha)); /* text stays white */
 
       text-decoration: underline;
       text-underline-offset: 4px;
