@@ -8,6 +8,7 @@ export class AccordionTabs {
   #data;
   #activeKey: string | undefined;
   #mediaQueryLargeScreen = window.matchMedia('(width >= 800px)');
+  #isScrollMarkerGroupTabsSupported = CSS.supports('scroll-marker-group', 'before tabs'); // False positive in Chrome 153, not supported until 154
 
   constructor(domElement: HTMLElement, data: Data, startKey?: string) {
     this.#domElement = domElement;
@@ -178,8 +179,33 @@ export class AccordionTabs {
     return markup;
   }
 
+  // Chrome 154+
+  // https://developer.chrome.com/blog/chrome-154-beta?hl=en
+  // https://chromestatus.com/feature/5109685301673984
+  // https://gist.github.com/danielsakhapov/aa8e744701224994609aebb3e9e316e3
+  #getScrollMarkerGroupTabsMarkup() {
+    const markup = html`
+      <ul class="tabs2">
+        <li data-label="Tab 1">Panel 1</li>
+        <li data-label="Tab 2">Panel 2</li>
+        <li data-label="Tab 3">Panel 3</li>
+      </ul>
+    `;
+
+    return markup;
+  }
+
   render(): void {
-    this.#domElement.innerHTML =
-      this.#appearance === 'Accordion' ? this.#getAccordionMarkup() : this.#getTabListMarkup();
+    if (this.#appearance === 'Accordion') {
+      this.#domElement.innerHTML = this.#getAccordionMarkup();
+      return;
+    }
+
+    if (this.#isScrollMarkerGroupTabsSupported) {
+      this.#domElement.innerHTML = this.#getScrollMarkerGroupTabsMarkup();
+      return;
+    }
+
+    this.#domElement.innerHTML = this.#getTabListMarkup();
   }
 }
