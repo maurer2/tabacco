@@ -72,6 +72,14 @@
     aspect-ratio: 16/9;
     block-size: 100%;
     inline-size: 100%;
+
+    /* https://developer.chrome.com/blog/responsive-iframes?hl=en */
+    /* needs to call window.requestResize() in the source iframe after load */
+    /* @supports (frame-sizing: content-height) {
+      frame-sizing: content-block-size;
+      block-size: auto;
+      aspect-ratio: auto;
+    } */
   }
 
   p {
