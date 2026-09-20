@@ -33,7 +33,6 @@ jobs:
       # https://github.com/pnpm/action-setup#migrating-to-pnpmsetup
       - uses: pnpm/setup@v2
         with:
-          runtime: node@24 # doesn't read .nvmrc https://github.com/pnpm/setup/issues/6
           cache: true
           install: true
       - name: Build
