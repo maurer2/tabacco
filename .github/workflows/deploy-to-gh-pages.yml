@@ -1,4 +1,6 @@
-name: Deploy React app to GH pages
+# https://vite.dev/guide/static-deploy.html#github-pages
+
+name: Deploy app to GH pages
 
 on:
   # Runs on pushes targeting the default branch
