@@ -8,7 +8,7 @@ export class AccordionTabs {
   #data;
   #activeKey: string | undefined;
   #mediaQueryLargeScreen = window.matchMedia('(width >= 800px)');
-  #isScrollMarkerGroupTabsSupported = CSS.supports('scroll-marker-group', 'before tabs'); // False positive in Chrome 153, not supported until 154
+  #isScrollMarkerGroupTabsSupported = CSS.supports('scroll-marker-group', 'before tabs'); // Chrome 154+ and older with "Experimental Web Platform features"-flag enabled
 
   constructor(domElement: HTMLElement, data: Data, startKey?: string) {
     this.#domElement = domElement;
@@ -179,16 +179,18 @@ export class AccordionTabs {
     return markup;
   }
 
-  // Chrome 154+
+  // Chrome 154+ and older versions with "Experimental Web Platform features"-flag enabled
   // https://developer.chrome.com/blog/chrome-154-beta?hl=en
   // https://chromestatus.com/feature/5109685301673984
   // https://gist.github.com/danielsakhapov/aa8e744701224994609aebb3e9e316e3
   #getScrollMarkerGroupTabsMarkup() {
+    const listEntries = [...this.#data].map(
+      ([key, data]) => html`<li data-label=${key}>${data}</li>`,
+    );
+
     const markup = html`
-      <ul class="tabs2">
-        <li data-label="Tab 1">Panel 1</li>
-        <li data-label="Tab 2">Panel 2</li>
-        <li data-label="Tab 3">Panel 3</li>
+      <ul class="scroll-marker-group-tabs">
+        ${listEntries.join('')}
       </ul>
     `;
 

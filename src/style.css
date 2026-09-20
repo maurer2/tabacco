@@ -74,7 +74,7 @@
     inline-size: 100%;
 
     /* https://developer.chrome.com/blog/responsive-iframes?hl=en */
-    /* needs to call window.requestResize() in the source iframe after load */
+    /* window.requestResize() needs to be called in the source iframe after load in order to work correctly */
     /* @supports (frame-sizing: content-height) {
       frame-sizing: content-block-size;
       block-size: auto;
@@ -204,28 +204,33 @@
     border: 1px solid currentColor;
   }
 
-  .tabs2 {
+  .scroll-marker-group-tabs {
     display: flex;
     margin: 0;
-    padding-inline: 0;
-    padding-block: 2rem;
+    padding: 0;
+    margin-block-start: 3rem;
+    border: 1px solid currentColor;
     overflow-x: auto;
     gap: var(--spacing-normal);
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
     scroll-marker-group: before tabs;
 
+    /* tabs container */
     &::scroll-marker-group {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: var(--spacing-normal);
     }
 
+    /* individual slide + tabs */
     & > li {
-      list-style-type: ''; /* Safari */
-      block-size: 250px;
+      padding-block: var(--spacing-normal);
+      padding-inline: var(--spacing-large);
+      block-size: fit-content;
       inline-size: 100%;
       flex-shrink: 0;
+      list-style-type: ''; /* Safari */
       scroll-snap-align: start;
       text-align: center;
       align-content: center;
@@ -233,6 +238,33 @@
       &::scroll-marker {
         content: attr(data-label);
         background: var(--color-surface);
+        padding-block: var(--spacing-small);
+        padding-inline: var(--spacing-large);
+        font-weight: 500;
+        text-box-trim: trim-both;
+        color: contrast-color(var(--color-surface));
+        border: 1px solid transparent;
+        text-decoration: none;
+      }
+
+      &::scroll-marker:target-current {
+        background: var(--color-text);
+        color: contrast-color(var(--color-text));
+      }
+
+      &::scroll-marker:where(:hover, :focus-visible) {
+        --background-color-with-alpha: alpha(from var(--color-text) / 15%);
+        --background-color-without-alpha: color-mix(
+          in oklab,
+          var(--color-text) 15%,
+          var(--color-background)
+        );
+
+        background: var(--background-color-with-alpha);
+        color: contrast-color(var(--background-color-without-alpha)); /* text stays white */
+
+        text-decoration: underline;
+        text-underline-offset: 4px;
       }
     }
   }
